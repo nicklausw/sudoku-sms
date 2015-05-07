@@ -46,7 +46,7 @@ FadeInScreen:
     djnz -
 
     ld b,32                ; number of palette entries: 32 (full palette)
-    ld hl,PaletteData    ; source
+    call DEtoHL    ; source
  -: ld a,(hl)              ; load raw palette data
     out ($be),a            ; write unfodified data to CRAM, palette load complete
     inc hl
