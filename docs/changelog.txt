@@ -1,0 +1,8 @@
+v0.2 - 4/25/15
+    * question mark replaced by dot.
+    * 2 button resets selected cell.
+    * there's now 127 puzzles!
+
+
+v0.1 - 4/22/15
+    * initial release.

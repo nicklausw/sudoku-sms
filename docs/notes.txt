@@ -1,0 +1,7 @@
+Version 0.2 is out! This one has a total
+of 127 puzzles. There would be more, but
+space limitations bring everything down.
+
+I like to consider this more of the
+"proper" release. To see any other changes,
+go to the changelog.txt file under docs.
