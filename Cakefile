@@ -18,22 +18,21 @@ delete_file = (file) ->
     if existent
       fs.unlink file
 
+execute_program = (program_stuff) ->
+  exec program_stuff, (err, stdout, stderr) ->
+    process.stdout.write stdout if stdout
+    process.stderr.write stderr if stderr
+
 
 task 'assemble', ->
   # run the assembler
-  exec 'wla-z80 -o sudoku.s sudoku.o', (err, stdout, stderr) ->
-    process.stdout.write stdout if stdout
-    process.stderr.write stderr if stderr
-
+  execute_program 'wla-z80 -o sudoku.s sudoku.o'
 
 task 'link', ->
   fs.openSync 'linkfile', 'w' # truncate linkfile
-  fs.writeFileSync "linkfile", "[objects]\nsudoku.o" # write to linkfile
+  fs.writeFileSync 'linkfile', '[objects]\nsudoku.o' # write to linkfile
 
-  # run the linker
-  exec 'wlalink -vd linkfile sudoku.sms', (err, stdout, stderr) ->
-    process.stdout.write stdout if stdout
-    process.stderr.write stderr if stderr
+  execute_program 'wlalink -vd linkfile sudoku.sms' # run the linker
 
 task 'build', ->
   execSync 'cake assemble'
