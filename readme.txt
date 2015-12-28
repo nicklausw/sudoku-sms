@@ -11,6 +11,7 @@ TABLE OF CONTENTS
 4. Images
 5. Generator?
 6. The Code
+7. Building
 ----------------------
 
 Intro
@@ -103,3 +104,27 @@ thing doesn't really help that.
 Just a warning, though, there's practically no comments.
 Or at least none that can be considered very useful.
 I wish you luck trying to sort your way through it.
+
+
+7. Building
+---------
+Building this thing is surprisingly easy.
+
+If you have coffee/cake, just do:
+
+"cake assemble" to assemble.
+"cake link" to link.
+"cake build" to assemble and link.
+"cake clean" to get rid of the build files.
+
+If not, no worries, just do the following steps.
+
+1. execute "wla-z80 -o sudoku.s sudoku.o"
+2. make a file called "linkfile" with these contents:
+
+[objects]
+sudoku.o
+
+3. execute "wlalink linkfile sudoku.sms"
+
+And you're done.
