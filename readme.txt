@@ -125,6 +125,6 @@ If not, no worries, just do the following steps.
 [objects]
 sudoku.o
 
-3. execute "wlalink linkfile sudoku.sms"
+3. execute "wlalink -vd linkfile sudoku.sms"
 
 And you're done.
