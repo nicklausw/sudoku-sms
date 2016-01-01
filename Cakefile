@@ -16,29 +16,31 @@ fs = require 'fs'
 delete_file = (file) ->
   fs.exists file , (existent) ->
     if existent
-      fs.unlink file
+      fs.unlinkSync file
 
-execute_program = (program_stuff) ->
-  exec program_stuff, (err, stdout, stderr) ->
-    process.stdout.write stdout if stdout
-    process.stderr.write stderr if stderr
+execute_program = (stuff) ->
+  prog = exec stuff, (err, stdout, stderr, callback) ->
+    process.stdout.write stdout
+    process.stderr.write stderr
+    callback?() if callback
 
 
 task 'assemble', ->
-  # run the assembler
   execute_program 'wla-z80 -o sudoku.s sudoku.o'
 
-task 'link', ->
-  fs.openSync 'linkfile', 'w' # truncate linkfile
-  fs.writeFileSync 'linkfile', '[objects]\nsudoku.o' # write to linkfile
 
-  execute_program 'wlalink -vd linkfile sudoku.sms' # run the linker
+task 'link', ->
+  fs.openSync 'linkfile', 'w'
+  fs.writeFileSync 'linkfile', '[objects]\nsudoku.o\n'
+
+  execute_program 'wlalink -vd linkfile sudoku.sms'
 
 task 'build', ->
   execSync 'cake assemble'
   execSync 'cake link'
 
+
 # clean just gets rid of sudoku.o and linkfile.
 task 'clean', ->
-  delete_file('linkfile')
   delete_file('sudoku.o')
+  delete_file('linkfile')
