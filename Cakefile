@@ -19,7 +19,7 @@ delete_file = (file) ->
       fs.unlinkSync file
 
 execute_program = (stuff) ->
-  prog = exec stuff, (err, stdout, stderr, callback) ->
+  exec stuff, (err, stdout, stderr, callback) ->
     process.stdout.write stdout
     process.stderr.write stderr
     callback?() if callback
