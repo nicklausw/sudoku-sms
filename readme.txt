@@ -110,21 +110,7 @@ I wish you luck trying to sort your way through it.
 ---------
 Building this thing is surprisingly easy.
 
-If you have coffee/cake, just do:
+Just use gnu make (make on linux, mingw32-make on windows).
 
-"cake assemble" to assemble.
-"cake link" to link.
-"cake build" to assemble and link.
-"cake clean" to get rid of the build files.
-
-If not, no worries, just do the following steps.
-
-1. execute "wla-z80 -o sudoku.s sudoku.o"
-2. make a file called "linkfile" with these contents:
-
-[objects]
-sudoku.o
-
-3. execute "wlalink -vd linkfile sudoku.sms"
-
-And you're done.
+If you don't have gnu make, then unfortunately you're out of luck
+Because of how manual the build process is.
