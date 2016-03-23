@@ -474,7 +474,7 @@ _substring:
   jp _intLoop
 .ends
 
-.ramsection "PSGlib variables" slot 1
+.enum $D000
   ; fundamental vars
   PSGMusicStatus             db    ; are we playing a background music?
   PSGMusicStart              dw    ; the pointer to the beginning of music
@@ -512,4 +512,4 @@ _substring:
   ; decompression vars for SFX
   PSGSFXSubstringLen         db       ; lenght of the substring we are playing
   PSGSFXSubstringRetAddr     dw       ; return to this address when substring is over
-.ends
+.ende

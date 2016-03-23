@@ -1,3 +1,5 @@
+.include "header.i"
+
 .section "puzzles" free
 puzzles:
 .db  0 0 0 0 0 6 0 9 0

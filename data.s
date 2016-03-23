@@ -1,3 +1,5 @@
+.include "header.i"
+
 .section "title" free
 title: .incbin "tiles\title.bin"
 title_map: .incbin "tilemaps\title_map.bin"

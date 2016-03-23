@@ -1,3 +1,5 @@
+.include "header.i"
+
 .section "SetVDP" free
 SetVDP:
     push bc

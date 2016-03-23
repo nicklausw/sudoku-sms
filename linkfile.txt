@@ -1,0 +1,16 @@
+# the linkfile for wlalink
+
+[objects]
+  cursor.o
+  data.o
+  display.o
+  fade.o
+  gen.o
+  puzzles.o
+  sudoku.o
+  vdp.o
+
+[libraries]
+  bank 0 slot 0 include/psglib.l
+  bank 0 slot 0 include/soniccompr.l
+  bank 0 slot 0 include/stmcomp.l

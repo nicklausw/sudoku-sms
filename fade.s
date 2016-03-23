@@ -7,6 +7,8 @@
 ; ld hl,[palette]
 ; call FadeInScreen/FadeOutScreen
 
+.include "header.i"
+
 .section "fade in" free
 
 FadeInScreen:

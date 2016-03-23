@@ -1,3 +1,5 @@
+.include "header.i"
+
 .section "display board" free
 DisplayBoard:
     xor a

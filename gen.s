@@ -1,3 +1,5 @@
+.include "header.i"
+
 .section "GenBoardDat" free
 GenerateBoardData:
     ld hl,puzzles
