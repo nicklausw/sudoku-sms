@@ -12,14 +12,14 @@ LIBS = $(wildcard include/*.s)
 LIBSO = $(subst .s,.l,$(LIBS))
 
 $(OUT): $(OFILES) $(LIBSO)
-	$(LD) -vd linkfile.txt $(OUT)
+	$(LD) -v -d linkfile.txt $(OUT)
 	$(EMU) $(OUT) >/dev/null 2>&1
 
 %.o: %.s
-	$(CC) -o $< $@
+	$(CC) -o $@ $<
 
 include/%.l: include/%.s
-	$(CC) -l $< $@
+	$(CC) -l $@ $<
 
 clean:
 	rm -f $(OFILES) $(OUT) $(LIBSO)
