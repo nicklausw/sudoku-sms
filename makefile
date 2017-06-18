@@ -1,25 +1,20 @@
-CC = wla-z80
-LD = wlalink
+BASS = bass-ultima
 
 OUT = sudoku.sms
 
-EMU = d:/dev/emu/meka/mekaw.exe
+EMU = higan
 
 SFILES = $(wildcard *.s)
-OFILES = $(subst .s,.o,$(SFILES))
 
 LIBS = $(wildcard include/*.s)
-LIBSO = $(subst .s,.l,$(LIBS))
 
-$(OUT): $(OFILES) $(LIBSO)
-	$(LD) -v -d linkfile.txt $(OUT)
+SUDOKUGEN = tools/sudoku.py
+
+$(OUT): $(SFILES) $(LIBS)
+	$(RM) puzzles.s
+	$(SUDOKUGEN) >>puzzles.s
+	$(BASS) -benchmark -strict -create -o $(OUT) sudoku.s
 	$(EMU) $(OUT) >/dev/null 2>&1
 
-%.o: %.s
-	$(CC) -o $@ $<
-
-include/%.l: include/%.s
-	$(CC) -l $@ $<
-
 clean:
-	rm -f $(OFILES) $(OUT) $(LIBSO)
+	$(RM) $(OUT) puzzles.s

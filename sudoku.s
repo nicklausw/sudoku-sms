@@ -1,127 +1,136 @@
-; main file to nicklausw's
-; sudoku game
+// main file to nicklausw's
+// sudoku game
 
-.include "header.i"
+arch sms.cpu
+include "header.i"
 
-.bank 0 slot 0
-.section "notes" free
-notes: .incbin "docs\notes.txt"
-.db 0
-.ends
+macro byte(name) {
+  {name}:; db 00
+}
 
+macro word(name) {
+  {name}:; dw 0000
+}
 
+macro multi(name, num) {
+  {name}:; fill {num}
+}
 
-.ramsection "ram" bank 0 slot 1
-    controller db
-
-    timer1 db
-    timer2 db
-
-    rand db
-
-    board_cell db
-    board_temp dw
-    board_dat dsb 162
-    board_ava dsb 81
-    board_loc dw
-
-    highlight dw
-    h_temp dw
-
-    disp_mode db
-    table_h db
-    table_rc dw
-.ends
+origin $0100; base $0100
+notes:; insert "docs/notes.txt"
+db 0
 
 
+pushvar pc
+base $C000; {
+    byte(controller)
 
-.org $00
-.section "begin" force
+    byte(timer1)
+    byte(timer2)
+
+    byte(rand)
+
+    byte(board_cell)
+    word(board_temp)
+    multi(board_dat, 162)
+    multi(board_ava, 81)
+    word(board_loc)
+
+    word(highlight)
+    word(h_temp)
+
+    byte(disp_mode)
+    byte(table_h)
+    word(table_rc)
+}; pullvar pc
+
+
+
+origin $0000; base $0000
     di
     im 1
     ld sp,$dfff
     jp setup
-.ends
 
 
-.org $38
-.section "interrupt" force
+origin $0038; base $0038
     push af
-    in a,$bf
+    in a,($bf)
     pop af
     call ctrlr_handle
     call inc_rand
     call timer
     ei
     reti
-.ends
 
 
-.org $66
-.section "pause" force
+origin $0066; base $0066
     retn
-.ends
 
 
-.section "ctrlr_handle" free
+origin $0300; base $0300
+include "include/psglib.s"
+include "include/soniccompr.s"
+include "include/stmcomp.s"
+include "cursor.s"
+include "data.s"
+include "display.s"
+include "fade.s"
+include "gen.s"
+include "puzzles.s"
+include "vdp.s"
+
 ctrlr_handle:
     push af
-    in a,$dc
-    ld [controller],a
+    in a,($dc)
+    ld (controller),a
     pop af
     ret
-.ends
 
 
-
-.section "inc_rand" free
 inc_rand:
     push af
     push bc
-    ld a,[rand]
+    ld a,(rand)
     inc a
     ld b,a
     ld a,r
     adc a,b
     ld b,a
-    ld a,[timer1]
+    ld a,(timer1)
     adc a,b
-    ld [rand],a
+    ld (rand),a
     pop bc
     pop af
     ret
-.ends
 
 
 
-.section "timer" free
 timer:
-    ld a,[timer1]
+    ld a,(timer1)
     cp 60
     jr z,+
     inc a
-    ld [timer1],a
+    ld (timer1),a
     jr ++
-    +: xor a
-    ld [timer1],a
-    ld a,[timer2]
+  +; xor a
+    ld (timer1),a
+    ld a,(timer2)
     inc a
-    ld [timer2],a
-    ++: ret
-.ends
+    ld (timer2),a
+  +; ret
 
 
 
-.section "setup" free
 setup:
     call VDPStuff
     call PSGInit
 
-    ; Clear RAM
+    // Clear RAM
     ld hl,$c000
     ld bc,$e000
-    -: xor a
-    ld [hl],a
+  -; xor a
+    ld (hl),a
     inc hl
     ld a,h
     cp $e0
@@ -131,18 +140,18 @@ setup:
     ld hl,$0000 | VRAMWrite
     call SetVDP
     ld bc,$4000
-    -: xor a
+  -; xor a
     out (VDPData),a
     dec bc
     ld a,b
     or c
-    jr nz, -
+    jr nz,-
 
 
     ld hl,$0909
-    ld [highlight],hl
+    ld (highlight),hl
     ld a,1
-    ld [board_cell],a
+    ld (board_cell),a
 
     ld hl,title
     ld bc,$0000
@@ -154,7 +163,7 @@ setup:
     call STM_tilemap_decompr
 
 
-    ; Turn screen on
+    // Turn screen on
     call ScreenOn
 
 
@@ -166,17 +175,12 @@ setup:
     call PSGPlayNoRepeat
 
 
-    jp main
-.ends
+    // main routine here
 
-
-
-.section "main" free
-main:
-    ; wait for press one
-    -: halt
+    // wait for press one
+  -; halt
     call PSGFrame
-    ld a,[controller]
+    ld a,(controller)
     bit 4,a
     jr nz,-
 
@@ -193,7 +197,7 @@ main:
 
 
     ld hl,numbers
-    ld bc,$E00
+    ld bc,$0E00
     call sonic_depack
 
 
@@ -209,7 +213,7 @@ main:
     ld hl,PaletteData
     call FadeInScreen
 
-    -: halt
+  -; halt
     call PSGFrame
     call Cursor
     call OnePress
@@ -218,25 +222,23 @@ main:
     call DisplayTable
     call CheckData
     jr -
-.ends
 
 
 
-.section "check data"
 CheckData:
     ld hl,board_dat+81
     ex de,hl
     ld hl,board_dat
     ld bc,81
 
-    -: ld a,[hl]
+  -; ld a,(hl)
     push bc
     ld b,a
     ex de,hl
-    ld a,[hl]
+    ld a,(hl)
     ex de,hl
     cp b
-    jr nz,+
+    jr nz,++
     pop bc
     dec bc
     inc hl
@@ -247,7 +249,7 @@ CheckData:
 
 
 
-    ; They won!
+    // They won!
     call PSGStop
 
     ld hl,PaletteData
@@ -269,24 +271,22 @@ CheckData:
     call FadeInScreen
 
 
-    -: halt
+  -; halt
     call PSGFrame
-    ld a,[controller]
+    ld a,(controller)
     bit 4,a
-    jr z,++
+    jr z,+
     jr -
-    ++: ld hl,PaletteData
+  +; ld hl,PaletteData
     call FadeOutScreen
     call ScreenOff
     call PSGStop
     jp $0000
-    +: pop bc
+  +; pop bc
     ret
-.ends
 
 
 
-.section "BC to HL" free
 BCtoHL:
     push af
     ld a,b
@@ -295,4 +295,5 @@ BCtoHL:
     ld l,a
     pop af
     ret
-.ends
+
+fill $8000 - origin()

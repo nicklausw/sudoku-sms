@@ -1,32 +1,30 @@
-.include "header.i"
-
-.section "GenBoardDat" free
-GenerateBoardData:
+arch sms.cpu
+scope GenerateBoardData: {
     ld hl,puzzles
-    ld a,[rand]
+    ld a,(rand)
 
     cp 127
     jr c,+
     sbc a,127
 
-    +: ld b,a
+  +; ld b,a
     cp 0
-    jr z,++
-    -: push bc
+    jr z,+
+  -; push bc
     ld bc,162
     adc hl,bc
     pop bc
     djnz -
 
-    ++: dec hl
-    ld [board_loc],hl
+  +; dec hl
+    ld (board_loc),hl
 
     ld bc,163
     ld de,board_dat-1
 
-    -: ld a,[hl]
+  -; ld a,(hl)
     ex de,hl
-    ld [hl],a
+    ld (hl),a
     ex de,hl
     inc de
     inc hl
@@ -35,11 +33,11 @@ GenerateBoardData:
     or c
     jr nz,-
 
-    ld hl,[board_loc]
+    ld hl,(board_loc)
     ld bc,82
     ld de,board_ava
 
-    -: ld a,[hl]
+  -; ld a,(hl)
     cp 1
     call c,_one
     inc de
@@ -51,9 +49,9 @@ GenerateBoardData:
     ret
 
 
-_one: ex de,hl
+_one:; ex de,hl
     ld a,1
-    ld [hl],a
+    ld (hl),a
     ex de,hl
     ret
-.ends
+}

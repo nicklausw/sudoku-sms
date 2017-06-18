@@ -1,32 +1,20 @@
-.include "header.i"
+arch sms.cpu
 
-.section "title" free
-title: .incbin "tiles\title.bin"
-title_map: .incbin "tilemaps\title_map.bin"
-.ends
+title:; insert "tiles/title.bin"
+title_map:; insert "tilemaps/title_map.bin"
 
 
-
-.section "board" free
-board: .incbin "tiles\board.bin"
-board_map: .incbin "tilemaps\board_map.bin"
-.ends
+board:; insert "tiles/board.bin"
+board_map:; insert "tilemaps/board_map.bin"
 
 
 
-.section "complete" free
-complete: .incbin "tiles\complete.bin"
-complete_map: .incbin "tilemaps\complete_map.bin"
-.ends
+complete:; insert "tiles/complete.bin"
+complete_map:; insert "tilemaps/complete_map.bin"
 
 
 
-.section "numbers" free
-numbers: .incbin "tiles\numbers.bin"
-.ends
+numbers:; insert "tiles/numbers.bin"
 
 
-
-.section "music" free
-title_music: .incbin "music\title.psg"
-.ends
+title_music:; insert "music/title.psg"
