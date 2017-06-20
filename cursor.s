@@ -220,9 +220,7 @@ _up:; push af
     inc a
     ld (highlight),a
     ld a,(board_cell)
-    dec a; dec a; dec a
-    dec a; dec a; dec a
-    dec a; dec a; dec a
+    or a; sbc a,9
     ld (board_cell),a
     call DisplayBoard
   +; wait_release(0)
@@ -237,9 +235,7 @@ _down:; push af
     dec a
     ld (highlight),a
     ld a,(board_cell)
-    inc a; inc a; inc a
-    inc a; inc a; inc a
-    inc a; inc a; inc a
+    add a,9
     ld (board_cell),a
     call DisplayBoard
   +;; wait_release(1)

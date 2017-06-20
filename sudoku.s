@@ -25,9 +25,6 @@ pushvar pc
 base $C000; {
     byte(controller)
 
-    byte(timer1)
-    byte(timer2)
-
     byte(rand)
 
     byte(board_cell)
@@ -59,7 +56,6 @@ origin $0038; base $0038
     pop af
     call ctrlr_handle
     call inc_rand
-    call timer
     ei
     reti
 
@@ -96,29 +92,10 @@ inc_rand:
     ld b,a
     ld a,r
     adc a,b
-    ld b,a
-    ld a,(timer1)
-    adc a,b
     ld (rand),a
     pop bc
     pop af
     ret
-
-
-
-timer:
-    ld a,(timer1)
-    cp 60
-    jr z,+
-    inc a
-    ld (timer1),a
-    jr ++
-  +; xor a
-    ld (timer1),a
-    ld a,(timer2)
-    inc a
-    ld (timer2),a
-  +; ret
 
 
 

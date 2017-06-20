@@ -153,7 +153,7 @@ def display(puzzle):
 print("puzzles:\n")
 for i in range(128):
     freshpuzzle =  construct_puzzle_solution()
-    results = run(28,10,freshpuzzle)       # find puzzles with as few givens as possible.
+    results = run(28,3,freshpuzzle)       # find puzzles with as few givens as possible.
     puzzle  = best(results)  # use the best one of those puzzles.
     display(puzzle)          # display that puzzle.
     display(freshpuzzle)
