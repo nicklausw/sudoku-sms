@@ -1,5 +1,5 @@
 sudoku-sms
-################
+-----------------------
 Originally written with WLA-DX and some
 puzzles I generated way long ago. Now,
 written in bass and the puzzles are generated
