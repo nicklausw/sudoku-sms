@@ -1,5 +1,5 @@
 arch sms.cpu
-scope GenerateBoardData: {
+scope GenerateBoardData {
     ld hl,puzzles
     ld a,(rand)
 

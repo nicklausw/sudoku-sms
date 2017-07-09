@@ -1,4 +1,4 @@
-BASS = bass-ultima
+BASS = C:/dev/bass-ultima/bass/out/bass-ultima
 
 OUT = sudoku.sms
 

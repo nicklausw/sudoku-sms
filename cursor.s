@@ -11,7 +11,7 @@ macro wait_release(button) {
 }
 
 
-scope TwoPress: {
+scope TwoPress {
     ld a,(controller)
     bit 5,a
     jr z,_yes
@@ -38,7 +38,7 @@ scope TwoPress: {
 
 
 
-scope OnePress: {
+scope OnePress {
     ld a,(controller)
     bit 4,a
     jr z,_yes
@@ -108,7 +108,7 @@ Table_OnePress:
 
 
 
-scope TableCursor: {
+scope TableCursor {
     ld a,(controller)
 
     bit 0,a
@@ -196,7 +196,7 @@ _right:; push af
 
 
 
-scope Cursor: {
+scope Cursor {
     ld a,(controller)
 
     bit 0,a

@@ -197,7 +197,7 @@ PSGSFXGetStatus:
 // ************************************************************************************
 // processes a music frame
 // destroys AF,HL,BC
-scope PSGFrame: {
+scope PSGFrame {
   ld a,(PSGMusicStatus)          // check if we've got to play a tune
   or a
   ret z
@@ -372,7 +372,7 @@ _high_part_Tone:
 // ************************************************************************************
 // processes a SFX frame
 // destroys AF,HL,BC
-scope PSGSFXFrame: {
+scope PSGSFXFrame {
   ld a,(PSGSFXStatus)            // check if we've got to play SFX
   or a
   ret z

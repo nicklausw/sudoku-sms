@@ -4,17 +4,7 @@
 arch sms.cpu
 include "header.i"
 
-macro byte(name) {
-  {name}:; db 00
-}
-
-macro word(name) {
-  {name}:; dw 0000
-}
-
-macro multi(name, num) {
-  {name}:; fill {num}
-}
+macro res(num) {{ fill {num} }}
 
 origin $0100; base $0100
 notes:; insert "docs/notes.txt"
@@ -23,22 +13,22 @@ db 0
 
 pushvar pc
 base $C000; {
-    byte(controller)
+    controller:; res(1)
 
-    byte(rand)
+    rand:; res(1)
 
-    byte(board_cell)
-    word(board_temp)
-    multi(board_dat, 162)
-    multi(board_ava, 81)
-    word(board_loc)
+    board_cell:; res(1)
+    board_temp:; res(2)
+    board_dat:; res(162)
+    board_ava:; res(81)
+    board_loc:; res(2)
 
-    word(highlight)
-    word(h_temp)
+    highlight:; res(2)
+    h_temp:; res(2)
 
-    byte(disp_mode)
-    byte(table_h)
-    word(table_rc)
+    disp_mode:; res(1)
+    table_h:; res(1)
+    table_rc:; res(2)
 }; pullvar pc
 
 
