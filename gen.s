@@ -1,4 +1,3 @@
-arch sms.cpu
 scope GenerateBoardData {
     ld hl,puzzles
     ld a,(rand)

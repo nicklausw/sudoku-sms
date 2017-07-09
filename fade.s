@@ -7,8 +7,6 @@
 // ld hl,[palette]
 // call FadeInScreen/FadeOutScreen
 
-arch sms.cpu
-
 FadeInScreen:
     ex de,hl
 

@@ -1,5 +1,3 @@
-arch sms.cpu
-
 macro wait_release(button) {
     push af
   -; halt

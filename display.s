@@ -1,4 +1,3 @@
-arch sms.cpu
 DisplayBoard:
     xor a
     push af

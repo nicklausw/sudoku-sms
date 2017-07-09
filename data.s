@@ -1,5 +1,3 @@
-arch sms.cpu
-
 title:; insert "tiles/title.bin"
 title_map:; insert "tilemaps/title_map.bin"
 

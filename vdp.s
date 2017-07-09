@@ -1,4 +1,3 @@
-arch sms.cpu
 SetVDP:
     push bc
     ld c,VDPControl
