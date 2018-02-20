@@ -1,4 +1,4 @@
-BASS = C:/dev/bass-ultima/bass/out/bass-ultima
+BASS = bass-untech
 
 OUT = sudoku.sms
 
@@ -10,10 +10,9 @@ LIBS = $(wildcard include/*.s)
 
 SUDOKUGEN = tools/sudoku.py
 
-$(OUT): $(SFILES) $(LIBS)
-	$(RM) puzzles.s
-	$(SUDOKUGEN) >>puzzles.s
-	$(BASS) -benchmark -strict -create -o $(OUT) sudoku.s
+all: $(SFILES) $(LIBS)
+	$(RM) puzzles.s; $(SUDOKUGEN) >>puzzles.s
+	$(BASS) -benchmark -strict -o $(OUT) sudoku.s
 	$(EMU) $(OUT) >/dev/null 2>&1
 
 clean:

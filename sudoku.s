@@ -1,17 +1,24 @@
 // main file to nicklausw's
 // sudoku game
 
-arch sms.cpu
-include "header.i"
+architecture z80
 
-macro res(num) {{ fill {num} }}
+// the usual definitions
+constant VDPControl = $bf
+constant VDPData    = $be
+constant VRAMWrite  = $4000
+constant CRAMWrite  = $c000
+
+inline res(num) {
+  base base() + {num}
+}
 
 origin $0100; base $0100
 notes:; insert "docs/notes.txt"
 db 0
 
 
-pushvar pc
+enqueue pc
 base $C000; {
     controller:; res(1)
 
@@ -29,7 +36,7 @@ base $C000; {
     disp_mode:; res(1)
     table_h:; res(1)
     table_rc:; res(2)
-}; pullvar pc
+}; dequeue pc
 
 
 

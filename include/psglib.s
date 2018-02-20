@@ -3,29 +3,28 @@
 // https://github.com/sverx/PSGlib
 //==============================================================
 
-arch sms.cpu
-constant      PSG_STOPPED(0)
-constant      PSG_PLAYING(1)
+constant      PSG_STOPPED = 0
+constant      PSG_PLAYING = 1
 
-constant      PSGDataPort($7f)
+constant      PSGDataPort = $7f
 
-constant      PSGLatch($80)
-constant      PSGData($40)
+constant      PSGLatch = $80
+constant      PSGData = $40
 
-constant      PSGChannel0(%00000000)
-constant      PSGChannel1(%00100000)
-constant      PSGChannel2(%01000000)
-constant      PSGChannel3(%01100000)
-constant      PSGVolumeData(%00010000)
+constant      PSGChannel0 = %00000000
+constant      PSGChannel1 = %00100000
+constant      PSGChannel2 = %01000000
+constant      PSGChannel3 = %01100000
+constant      PSGVolumeData = %00010000
 
-constant      PSGWait($38)
-constant      PSGSubString($08)
-constant      PSGLoop($01)
-constant      PSGEnd($00)
+constant      PSGWait = $38
+constant      PSGSubString = $08
+constant      PSGLoop = $01
+constant      PSGEnd = $00
 
-constant      SFX_CHANNEL2($01)
-constant      SFX_CHANNEL3($02)
-constant      SFX_CHANNELS2AND3(SFX_CHANNEL2|SFX_CHANNEL3)
+constant      SFX_CHANNEL2 = $01
+constant      SFX_CHANNEL3 = $02
+constant      SFX_CHANNELS2AND3 = SFX_CHANNEL2|SFX_CHANNEL3
 
 // ************************************************************************************
 // initializes the PSG 'engine'
@@ -197,7 +196,7 @@ PSGSFXGetStatus:
 // ************************************************************************************
 // processes a music frame
 // destroys AF,HL,BC
-scope PSGFrame {
+function PSGFrame {
   ld a,(PSGMusicStatus)          // check if we've got to play a tune
   or a
   ret z
@@ -372,7 +371,7 @@ _high_part_Tone:
 // ************************************************************************************
 // processes a SFX frame
 // destroys AF,HL,BC
-scope PSGSFXFrame {
+function PSGSFXFrame {
   ld a,(PSGSFXStatus)            // check if we've got to play SFX
   or a
   ret z
@@ -456,43 +455,43 @@ _substring:
   jp _intLoop
 }
 
-pushvar pc
+enqueue pc
 base $D000
   // fundamental vars
-  PSGMusicStatus:;             db 00    // are we playing a background music?
-  PSGMusicStart:;              dw 0000    // the pointer to the beginning of music
-  PSGMusicPointer:;            dw 0000    // the pointer to the current
-  PSGMusicLoopPoint:;          dw 0000   // the pointer to the loop begin
-  PSGMusicSkipFrames:;         db 00   // the frames we need to skip
-  PSGLoopFlag:;                db 00   // the tune should loop or not (flag)
-  PSGMusicLastLatch:;          db 00   // the last PSG music latch
+  PSGMusicStatus:;             res(1)    // are we playing a background music?
+  PSGMusicStart:;              res(2)    // the pointer to the beginning of music
+  PSGMusicPointer:;            res(2)    // the pointer to the current
+  PSGMusicLoopPoint:;          res(2)   // the pointer to the loop begin
+  PSGMusicSkipFrames:;         res(1)   // the frames we need to skip
+  PSGLoopFlag:;                res(1)   // the tune should loop or not (flag)
+  PSGMusicLastLatch:;          res(1)   // the last PSG music latch
 
   // decompression vars
-  PSGMusicSubstringLen:;       db 00   // lenght of the substring we are playing
-  PSGMusicSubstringRetAddr:;   dw 0000   // return to this address when substring is over
+  PSGMusicSubstringLen:;       res(1)   // lenght of the substring we are playing
+  PSGMusicSubstringRetAddr:;   res(2)   // return to this address when substring is over
 
   // ******* SFX *************
 
   // command buffering for channels 2-3
-  PSGChan2Volume:;             db 00      // the volume for channel 2
-  PSGChan3Volume:;             db 00      // the volume for channel 3
-  PSGChan2LowTone:;            db 00      // the low tone bits for channels 2
-  PSGChan3LowTone:;            db 00      // the low tone bits for channels 3
-  PSGChan2HighTone:;           db 00      // the high tone bits for channel 2
+  PSGChan2Volume:;             res(1)      // the volume for channel 2
+  PSGChan3Volume:;             res(1)      // the volume for channel 3
+  PSGChan2LowTone:;            res(1)      // the low tone bits for channels 2
+  PSGChan3LowTone:;            res(1)      // the low tone bits for channels 3
+  PSGChan2HighTone:;           res(1)      // the high tone bits for channel 2
 
   // flags for channels 2-3 access
-  PSGChannel2SFX:;             db 00      // !0 means channel 2 is allocated to SFX
-  PSGChannel3SFX:;             db 00      // !0 means channel 3 is allocated to SFX
+  PSGChannel2SFX:;             res(1)      // !0 means channel 2 is allocated to SFX
+  PSGChannel3SFX:;             res(1)      // !0 means channel 3 is allocated to SFX
 
   // fundamental vars for SFX
-  PSGSFXStatus:;               db 00      // are we playing a SFX?
-  PSGSFXStart:;                dw 0000      // the pointer to the beginning of SFX
-  PSGSFXPointer:;              dw 0000      // the pointer to the current address
-  PSGSFXLoopPoint:;            dw 0000      // the pointer to the loop begin
-  PSGSFXSkipFrames:;           db 00      // the frames we need to skip
-  PSGSFXLoopFlag:;             db 00      // the SFX should loop or not (flag)
+  PSGSFXStatus:;               res(1)      // are we playing a SFX?
+  PSGSFXStart:;                res(2)      // the pointer to the beginning of SFX
+  PSGSFXPointer:;              res(2)      // the pointer to the current address
+  PSGSFXLoopPoint:;            res(2)      // the pointer to the loop begin
+  PSGSFXSkipFrames:;           res(1)      // the frames we need to skip
+  PSGSFXLoopFlag:;             res(1)      // the SFX should loop or not (flag)
 
   // decompression vars for SFX
-  PSGSFXSubstringLen:;         db 00      // lenght of the substring we are playing
-  PSGSFXSubstringRetAddr:;     dw 0000      // return to this address when substring is over
-pullvar pc
+  PSGSFXSubstringLen:;         res(1)      // lenght of the substring we are playing
+  PSGSFXSubstringRetAddr:;     res(2)      // return to this address when substring is over
+dequeue pc

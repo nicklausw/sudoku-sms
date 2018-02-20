@@ -1,4 +1,4 @@
-scope GenerateBoardData {
+function GenerateBoardData {
     ld hl,puzzles
     ld a,(rand)
 

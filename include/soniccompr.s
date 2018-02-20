@@ -3,17 +3,17 @@
 // Needs 8 bytes of RAM for temporary storage. Define Sonic1TileLoaderMemory as the start address of the RAM to use.
 
 // RAM usage
-pushvar pc
+enqueue pc
 base $D100
-Sonic1TileLoader_StartOfData:; dw 0000
-Sonic1TileLoader_RowCount:; dw 0000
-Sonic1TileLoader_UniqueRowsData:; dw 0000
-Sonic1TileLoader_ArtData:; dw 0000
-pullvar pc
+Sonic1TileLoader_StartOfData:; res(2)
+Sonic1TileLoader_RowCount:; res(2)
+Sonic1TileLoader_UniqueRowsData:; res(2)
+Sonic1TileLoader_ArtData:; res(2)
+dequeue pc
 
 
 // A definition
-constant SMS_VDP_DATA($be)
+constant SMS_VDP_DATA = $be
 
 Sonic1TileLoader_Decompress:
 // Arguments:
